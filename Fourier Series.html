@@ -1,0 +1,78 @@
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.js"></script>
+<title>Test</title>
+</head>
+
+<body>
+<script>
+
+let time = 0;
+
+let radius = 100;
+let farX = 300;
+let points = [];
+
+let countSlider;
+let count = 100;
+
+function setup() {
+  createCanvas(1500, 400);
+  textSize(15);
+  
+  countSlider = createSlider(1, 500, 100);
+  countSlider.position(20, 20);
+  countSlider.style('width', '200px');
+}
+
+function draw() {
+  background(255);
+  translate(0, 0);
+  text("" + count, countSlider.x * 2 + countSlider.width, 30);
+  
+  translate(200, 200);
+  time += deltaTime / 5000;
+  
+  count = countSlider.value();
+  
+  
+  
+  let x = 0, y = 0;
+  
+  for (var i = 0; i < count; i++)
+  {
+	let m = 2*i + 1;
+	noFill();
+	stroke(0);
+
+	ellipse(x, y, radius * 2 / m);
+	
+	let newX = x + cos(time * TAU * m) * radius / m, newY = y + sin(time * TAU * m) * radius / m;
+	
+	stroke(255, 0, 0);
+	fill(255, 0, 0);
+	ellipse(newX, newY, 5);
+	line(x, y, newX, newY);
+	x = newX;
+	y = newY;
+  }
+  
+  append(points, y);
+  
+  stroke(0);
+  
+  line(x, y, farX, y);
+  noFill();
+  beginShape();
+  for (var i = 0; i < points.length; i++)
+  {
+	vertex(farX + i, points[points.length - i]);
+  }
+  endShape();
+  
+}
+
+</script>
+<body>
+</html>
